@@ -69,11 +69,11 @@ public class AuthorRepository {
         }
     }
 
-//    public List<Author> searchAuthor(String text) {
-//        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-//            Query query = session.createSQLQuery("from Author where author_name like :text");
-//            query.setParameter("text", "%" + text + "%");
-//            return query.list();
-//        }
-//    }
+    public List<Author> searchAuthor(String text) {
+        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            final Query query = session.createQuery("from Author where author_name like :text");
+            query.setParameter("text", '%' + text + '%');
+            return query.list();
+        }
+    }
 }

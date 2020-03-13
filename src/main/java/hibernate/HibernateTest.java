@@ -40,8 +40,8 @@ public class HibernateTest {
         authorListEdit.forEach(s -> System.out.println("Author: " + s.getId() + " " + s.getName()));
 
         //search author
-//        List<Author> authorListSearch = authorRepository.searchAuthor("Nguyen");
-//        authorListSearch.forEach(s -> System.out.println("Author: " + s.getId() + " " + s.getName()));
+        List<Author> authorListSearch = authorRepository.searchAuthor("Nam");
+        authorListSearch.forEach(s -> System.out.println("Author: " + s.getId() + " " + s.getName()));
 
     }
 }
