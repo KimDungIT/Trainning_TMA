@@ -1,6 +1,7 @@
 package hibernate.repository;
 
 
+import hibernate.model.Address;
 import hibernate.model.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -33,25 +34,35 @@ public class AuthorRepository {
         }
     }
 
-    public void editAuthor(Author author) {
-        Transaction transaction = null;
+    public void editAuthor(int id, String name, Address address) {
+//        try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+//            String sql = "update Author set author_name = :name where author_id = :id";
+//            Query query = session.createQuery(sql);
+//            query.setParameter("name", name);
+//            query.setParameter("id", id);
+//
+//            transaction = session.beginTransaction();
+//            session.update(author);
+//            transaction.commit();
+//        }
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
+            Author author = new Author();
+            author.setId(id);
+            author.setName(name);
+            author.setAddress(address);
+            session.beginTransaction();
             session.update(author);
-            transaction.commit();
-        } catch (Exception e) {
-            if(transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
+            session.getTransaction().commit();
+            session.close();
         }
+
     }
 
     public void deleteAuthor(int id) {
         Transaction transaction = null;
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.delete(new Author(4, null));
+            session.delete(new Author(id, null));
             transaction.commit();
         } catch (Exception e) {
             if(transaction !=null) {
@@ -61,17 +72,19 @@ public class AuthorRepository {
         }
     }
 
-    public List<Author> getAuthorById(int id) {
+    public Author getAuthorById(int id) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            Query query = session.createQuery("from Author where author_id = :id");
-            query.setParameter("id", id);
-            return query.list();
+//            Query query = session.createQuery("from Author where author_id = :id");
+//            query.setParameter("id", id);
+//            return query.list();
+            Author author = session.get(Author.class, id);
+            return author;
         }
     }
 
     public List<Author> searchAuthor(String text) {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
-            final Query query = session.createQuery("from Author where author_name like :text");
+            final Query query = session.createQuery("from Author where name like :text");
             query.setParameter("text", '%' + text + '%');
             return query.list();
         }

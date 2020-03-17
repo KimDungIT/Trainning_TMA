@@ -15,5 +15,9 @@
         <!-- Specifying Session Context -->
         <property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
         <mapping class="hibernate.model.Author"/>
+        <mapping class="hibernate.model.Book"/>
+        <mapping class="hibernate.model.Address"/>
+        <mapping class="hibernate.model.Store"/>
+        <mapping class="hibernate.model.BookStore"/>
     </session-factory>
 </hibernate-configuration>
